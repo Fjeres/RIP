@@ -1,6 +1,6 @@
 # RIP
 
-Todo list для премдета РИП
+Todo list для предмета РИП
 
 Для запуска backend соберите докер docker-compose
 
