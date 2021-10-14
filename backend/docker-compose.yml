@@ -18,7 +18,26 @@ services:
       - "8000:8000"
     depends_on:
       - db
+  celery:
+    build: .
+    container_name: 'demo_app_celery'
+    command: celery -A backend worker -P threads
+    volumes:
+      - .:/code
+    links:
+      - redis
+    depends_on:
+      - web
+      - redis
+  redis:
+    image: redis
+    restart: always
+    container_name: 'demo_app_redis'
+    command: redis-server
+    ports:
+      - '6379:6379'
   rabbitmq:
+    container_name: 'demo_app_rabbitmq'
     image: "rabbitmq:3-management"
     ports:
       - "5672:5672"

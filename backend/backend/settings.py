@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'todo.apps.TodoConfig',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +135,9 @@ CORS_ORIGIN_WHITELIST = [
 CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:8000',
 ]
+
+CELERY_BROKER_URL = 'amqp://demo_app_rabbitmq:5672'
+CELERY_RESULT_BACKEND ='redis://demo_app_redis:6379'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_INCLUDE ='backend.tasks'
