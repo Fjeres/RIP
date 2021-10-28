@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'todo.apps.TodoConfig',
+    'channels',
+
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = 'backend.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -136,8 +139,13 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:8000',
 ]
 
-CELERY_BROKER_URL = 'amqp://demo_app_rabbitmq:5672'
-CELERY_RESULT_BACKEND ='redis://demo_app_redis:6379'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_INCLUDE ='backend.tasks'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('demo_app_redis', 6379)],
+        },
+    },
+}

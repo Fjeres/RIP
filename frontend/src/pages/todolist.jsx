@@ -13,6 +13,7 @@ export default class Todolist extends React.Component {
 
         this.state = {
             data: []
+
         };
     }
 
@@ -58,6 +59,9 @@ export default class Todolist extends React.Component {
     }
 
 
+
+
+
     render() {
         return (
             <div >
@@ -97,8 +101,7 @@ export default class Todolist extends React.Component {
 
                     handleChange={this.handladd}
                 />
-
             </div>
         );
     }
-}
+};

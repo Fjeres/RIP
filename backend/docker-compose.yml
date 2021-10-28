@@ -18,17 +18,6 @@ services:
       - "8000:8000"
     depends_on:
       - db
-  celery:
-    build: .
-    container_name: 'demo_app_celery'
-    command: celery -A backend worker -P threads
-    volumes:
-      - .:/code
-    links:
-      - redis
-    depends_on:
-      - web
-      - redis
   redis:
     image: redis
     restart: always

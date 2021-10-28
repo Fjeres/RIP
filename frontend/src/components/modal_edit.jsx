@@ -21,9 +21,9 @@ export default function ModalEdit(props) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [input, setInput] = React.useState('');
-    return (
-        <div >
 
+        return (
+        <div >
             <Button   variant="contained" onClick={handleOpen}>Изменить</Button>
             <Modal
                 open={open}
