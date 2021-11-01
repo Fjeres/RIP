@@ -1,23 +1,45 @@
 import json
+from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+from .models import TodoNotes
+from .serializers import TodoNotesSerializer
 
 
 class WSConsumer(WebsocketConsumer):
-    async def connect(self):
 
-        self.room_name = self.scope['url_route']['kwargs']
+    def connect(self):
+        self.accept()
+        todo = TodoNotes.objects.all()
+        serializer = TodoNotesSerializer(todo, many=True)
+        self.send(json.dumps(serializer.data))
 
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        if text_data_json['header'] == 'PUT':
 
-        await  self.accept()
-        await  self.send(json.dumps({"message": "message"}))
+            todo = TodoNotes.objects.get(pk=text_data_json['id'])
 
-    async def disconnect(self, close_code):
-        # Leave room group
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+            data = {
+                "text": text_data_json['text']
+            }
+
+            serializer = TodoNotesSerializer(todo, data=data)
+            if serializer.is_valid():
+                serializer.save()
+
+        if text_data_json['header'] == 'DELETE':
+            todo = TodoNotes.objects.filter(pk=text_data_json['id'])
+            todo.delete()
+
+        if text_data_json['header'] == 'POST':
+            data = {
+                "text": text_data_json['text']
+            }
+            serializer = TodoNotesSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+
+
+        todo_temp = TodoNotes.objects.all()
+        serializer_temp = TodoNotesSerializer(todo_temp, many=True)
+        self.send(text_data=json.dumps(serializer_temp.data))

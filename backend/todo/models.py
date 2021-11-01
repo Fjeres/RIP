@@ -10,3 +10,13 @@ class Todolist(models.Model):
 
     class Meta:
         ordering = ('id',)
+
+
+class TodoNotes(models.Model):
+    text = models.CharField(max_length=300)
+    
+    def __str__(self):
+        return self.text
+    
+    class Meta:
+        ordering = ('id',)

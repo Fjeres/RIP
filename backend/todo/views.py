@@ -13,7 +13,7 @@ def todo_list(request):
     if request.method == 'GET':
         todo = Todolist.objects.all()
         serializer = TodolistSerializer(todo, many=True)
-        send_log(request.META)
+     #   send_log(request.META)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -28,7 +28,7 @@ def todo_one(request, pk: int):
 @api_view(['POST'])
 def todo_add(request):
     if request.method == 'POST':
-        send_log(request.META)
+      #  send_log(request.META)
         serializer = TodolistSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -39,7 +39,7 @@ def todo_add(request):
 @api_view(['DELETE'])
 def todo_delete(request, pk):
     if request.method == 'DELETE':
-        send_log(request.META)
+      #  send_log(request.META)
         todo = Todolist.objects.filter(pk=pk)
         todo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -48,7 +48,7 @@ def todo_delete(request, pk):
 @api_view(['PUT'])
 def todo_update(request, pk: int):
     if request.method == 'PUT':
-        send_log(request.META)
+       # send_log(request.META)
         todo = Todolist.objects.get(pk=pk)
         serializer = TodolistSerializer(todo, data=request.data)
         if serializer.is_valid():
@@ -60,7 +60,7 @@ def todo_update(request, pk: int):
 @api_view(['PUT'])
 def todo_update_check(request, pk: int):
     if request.method == 'PUT':
-        send_log(request.META)
+        #send_log(request.META)
         todo = Todolist.objects.get(pk=pk)
         serializer = TodolistSerializer(todo, data=request.data)
         if serializer.is_valid():
