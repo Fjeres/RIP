@@ -53,7 +53,7 @@ def todo_update(request, pk: int):
         serializer = TodolistSerializer(todo, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            Response(serializer.data, status=status.HTTP_201_CREATED)
+           return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -65,7 +65,7 @@ def todo_update_check(request, pk: int):
         serializer = TodolistSerializer(todo, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            Response(serializer.data, status=status.HTTP_201_CREATED)
+           return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
